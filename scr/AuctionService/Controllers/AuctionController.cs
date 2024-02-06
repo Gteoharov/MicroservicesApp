@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using AuctionService.Data;
+﻿using AuctionService.Data;
 using AuctionService.DTOs;
 using AuctionService.Entities;
 using AutoMapper;
@@ -57,7 +56,7 @@ public class AuctionController : ControllerBase
 
         if (!result) return BadRequest("Could not save changes to the DB");
 
-        return CreatedAtAction(nameof(GetAuctionById), new { auction.Id}, _mapper.Map<AuctionDto>(auction));
+        return CreatedAtAction(nameof(GetAuctionById), new { auction.Id }, _mapper.Map<AuctionDto>(auction));
     }
 
     [HttpPut("{id}")]
@@ -87,14 +86,13 @@ public class AuctionController : ControllerBase
     public async Task<ActionResult> DeleteAuction(Guid id)
     {
         var auction = await _context.Auctions.FindAsync(id);
-        
-        if (auction == null) return NotFound();
 
+        if (auction == null) return NotFound();
 
         // TODO: check seller == username
 
         _context.Auctions.Remove(auction);
-        
+
         var result = await _context.SaveChangesAsync() > 0;
 
         if (!result) return BadRequest("Could not update DB");
