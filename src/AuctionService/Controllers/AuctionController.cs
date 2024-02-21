@@ -21,7 +21,7 @@ public class AuctionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<AuctionDto>>> GetAuctions()
+    public async Task<ActionResult<List<AuctionDto>>> GetAllAuctions()
     {
         var auctions = await _context.Auctions
             .Include(x => x.Item)
