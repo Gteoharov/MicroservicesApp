@@ -16,7 +16,7 @@ public class AuctionSvcHttpClient
 
     public async Task<List<Item>> GetItemsForSearchDB()
     {
-        var lastUpdate = DB.Find<Item, string>()
+        var lastUpdate = await DB.Find<Item, string>()
             .Sort(x => x.Descending(x => x.UpdatedAt))
             .Project(x => x.UpdatedAt.ToString())
             .ExecuteFirstAsync();
