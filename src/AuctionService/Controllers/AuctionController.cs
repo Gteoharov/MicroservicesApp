@@ -70,9 +70,9 @@ public class AuctionController : ControllerBase
 
         return CreatedAtAction(nameof(GetAuctionById), new { auction.Id }, newAuction);
     }
-
+    // api/search/2324
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateAuction(Guid id, UpdateAuctionDto updateAuctionDto)
+    public async Task<ActionResult> UpdateAuction(Guid id, [FromBody]UpdateAuctionDto updateAuctionDto)
     {
         var auction = await _context.Auctions.Include(x => x.Item)
             .FirstOrDefaultAsync(x => x.Id == id);
@@ -87,9 +87,11 @@ public class AuctionController : ControllerBase
         auction.Item.Mileage = updateAuctionDto.Mileage ?? auction.Item.Mileage;
         auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
 
-        await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
+        
 
         var result = await _context.SaveChangesAsync() > 0;
+
+        await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
 
         if (result) return Ok();
 
