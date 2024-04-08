@@ -14,14 +14,13 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
-            new ApiScope("auctionApp", "Auction app full access"),
+            new("auctionApp", "Auction app full access"),
         };
 
     public static IEnumerable<Client> Clients =>
         new Client[]
         {
-            new Client
-            {
+            new() {
                 ClientId = "postman",
                 ClientName = "Postman",
                 AllowedScopes = {"openid", "profile", "auctionApp"},
